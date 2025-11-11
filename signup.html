@@ -1,63 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Quizterra</title>
-  <style>
-    body { font-family: Arial; text-align: center; padding-top: 50px; }
-    .g_id_signin { margin-top: 20px; }
-    #usernameContainer { display: none; margin-top: 20px; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quizterra | Sign Up</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
   <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:"Poppins", sans-serif; }
+    body {
+      background: linear-gradient(120deg, #47a7ff, #745cff, #ff4ef2);
+      background-size: 400% 400%;
+      animation: gradientMove 10s ease infinite;
+      min-height: 100vh;
+      color: white;
+      overflow-x: hidden;
+      text-align: center;
+      padding-top: 80px;
+    }
+    @keyframes gradientMove { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+    .shape { position:absolute; font-size:70px; opacity:0.35; animation:float 9s ease-in-out infinite; user-select:none; }
+    @keyframes float { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-50px) rotate(10deg);} }
+
+    header {
+      width:90%; margin:25px auto; padding:15px 25px; background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(8px); border-radius:18px; display:flex; justify-content:space-between; align-items:center;
+      animation:fadeDown .8s ease;
+    }
+    @keyframes fadeDown { from{opacity:0; transform:translateY(-25px);} to{opacity:1; transform:translateY(0);} }
+    .logo { font-size:36px; font-weight:700; }
+    nav a { margin-left:30px; font-size:18px; text-decoration:none; color:white; transition:0.3s; }
+    nav a:hover { opacity:0.8; transform:scale(1.08); }
+
+    .hero { text-align:center; margin-top:120px; animation:riseUp 1.1s ease; }
+    @keyframes riseUp { from{opacity:0; transform:translateY(50px);} to{opacity:1; transform:translateY(0);} }
+    .hero h1 { font-size:65px; font-weight:700; line-height:1.1; margin-bottom:15px; }
+    .hero p { font-size:22px; opacity:0.9; max-width:700px; margin:auto; margin-bottom:35px; }
+
+    .google-btn { 
+      background:white; color:#222; border-radius:50px; padding:18px 36px;
+      font-size:22px; font-weight:700; border:none; cursor:pointer;
+      display:inline-flex; align-items:center; gap:12px; transition:transform 0.25s ease-in-out;
+    }
+    .google-btn:hover { transform:scale(1.07); }
+    .google-btn img { width:28px; }
+
+    footer { margin-top:80px; text-align:center; opacity:0.6; padding-bottom:20px; }
+  </style>
 </head>
 <body>
 
-<h1>Welcome to Quizterra</h1>
-<p>Sign in with Google to continue</p>
+  <!-- Floating shapes -->
+  <div class="shape" style="top:15%; left:5%;">🔵</div>
+  <div class="shape" style="top:70%; left:13%;">📖</div>
+  <div class="shape" style="top:30%; right:10%;">🧪</div>
+  <div class="shape" style="bottom:10%; right:20%;">🌍</div>
 
-<div id="g_id_onload"
-     data-client_id="281461594707-shb4iadtbtev48ue1bo2ltbv7bpk9um4.apps.googleusercontent.com"
-     data-login_uri="https://blooketwarrior.github.io/quizterra/oauth2callback.html"
-     data-auto_prompt="false">
-</div>
+  <header>
+    <div class="logo">Quizterra</div>
+    <nav>
+      <a href="#">Play</a>
+      <a href="#">Login</a>
+      <a href="#">Signup</a>
+    </nav>
+  </header>
 
-<div class="g_id_signin"
-     data-type="standard"
-     data-shape="rectangular"
-     data-theme="outline"
-     data-text="sign_in_with"
-     data-size="large">
-</div>
+  <section class="hero">
+    <h1>Welcome to Quizterra</h1>
+    <p>Sign in with Google to start your adventure!</p>
 
-<!-- Username input -->
-<div id="usernameContainer">
-  <p>Create your username:</p>
-  <input type="text" id="usernameInput" placeholder="Enter username" />
-  <button id="saveUsernameBtn">Save & Continue</button>
-</div>
+    <!-- Google Sign-In -->
+    <div id="g_id_onload"
+         data-client_id="281461594707-shb4iadtbtev48ue1bo2ltbv7bpk9um4.apps.googleusercontent.com"
+         data-login_uri="https://blooketwarrior.github.io/quizterra/oauth2callback.html"
+         data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin"
+         data-type="standard"
+         data-shape="rectangular"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-size="large">
+    </div>
+  </section>
 
-<script>
-  // Check if user info is stored
-  const storedUser = localStorage.getItem("quizterraUser");
-  if (storedUser) {
-    const user = JSON.parse(storedUser);
-    if (!user.username) {
-      document.getElementById("usernameContainer").style.display = "block";
-    } else {
-      window.location.href = "stats.html"; // Already has username
-    }
-  }
-
-  // Save username
-  document.getElementById("saveUsernameBtn").addEventListener("click", () => {
-    const username = document.getElementById("usernameInput").value.trim();
-    if (!username) return alert("Please enter a username!");
-    const user = JSON.parse(localStorage.getItem("quizterraUser"));
-    user.username = username;
-    localStorage.setItem("quizterraUser", JSON.stringify(user));
-    window.location.href = "stats.html";
-  });
-</script>
+  <footer>© 2025 Quizterra — All Rights Reserved</footer>
 
 </body>
 </html>
