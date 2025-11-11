@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Processing login...</title>
+</head>
+<body>
+<h1>Processing login...</h1>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const credential = params.get("credential");
+
+  if (credential) {
+    const user = JSON.parse(atob(credential.split(".")[1]));
+    console.log("User info:", user);
+
+    // Store basic Google info in localStorage
+    localStorage.setItem("quizterraUser", JSON.stringify({
+      name: user.name,
+      email: user.email,
+      picture: user.picture
+    }));
+
+    // Redirect to main page to handle username creation
+    window.location.href = "index.html";
+  } else {
+    alert("Login failed!");
+    window.location.href = "index.html";
+  }
+</script>
+</body>
+</html>
