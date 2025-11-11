@@ -11,21 +11,22 @@
   const credential = params.get("credential");
 
   if (credential) {
+    // Decode JWT to get user info
     const user = JSON.parse(atob(credential.split(".")[1]));
     console.log("User info:", user);
 
-    // Store basic Google info in localStorage
+    // Store user info in localStorage
     localStorage.setItem("quizterraUser", JSON.stringify({
       name: user.name,
       email: user.email,
       picture: user.picture
     }));
 
-    // Redirect to main page to handle username creation
-    window.location.href = "index.html";
+    // Automatically go to stats.html
+    window.location.href = "stats.html";
   } else {
     alert("Login failed!");
-    window.location.href = "index.html";
+    window.location.href = "signup.html";
   }
 </script>
 </body>
