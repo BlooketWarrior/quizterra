@@ -7,290 +7,198 @@
 
   <style>
     body {
-      font-family: "Poppins", sans-serif;
+      margin: 0;
+      font-family: Poppins, sans-serif;
+      display: flex;
+      height: 100vh;
       background: linear-gradient(120deg, #47a7ff, #745cff, #ff4ef2);
       background-size: 400% 400%;
-      animation: gradientMove 10s ease infinite;
-      min-height: 100vh;
-      text-align: center;
-      padding-top: 50px;
+      animation: gradientMove 11s ease infinite;
       color: white;
     }
+
     @keyframes gradientMove {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
-    .stats-card {
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(8px);
-      width: 480px;
-      margin: auto;
-      margin-top: 20px;
-      padding: 35px;
-      border-radius: 25px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
-      animation: fadeIn 1s ease;
+    /* SIDEBAR */
+    .sidebar {
+      width: 260px;
+      background: rgba(0,0,0,0.25);
+      backdrop-filter: blur(12px);
+      padding: 25px;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.3);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .profile-img {
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      border: 5px solid white;
+    .sidebar h2 {
+      font-size: 24px;
       margin-bottom: 20px;
-    }
-
-    .xp-container {
-      width: 100%;
-      height: 25px;
-      background: rgba(255,255,255,0.3);
-      border-radius: 20px;
-      margin-top: 15px;
-      overflow: hidden;
-    }
-
-    .xp-fill {
-      height: 100%;
-      background: #00ffea;
-      width: 0%;
-      transition: width 1.2s ease;
-    }
-
-    .badge-list {
-      margin-top: 20px;
-    }
-
-    .badge {
-      display: inline-block;
-      background: white;
-      color: #222;
-      padding: 8px 16px;
-      border-radius: 15px;
-      margin: 5px;
-      font-weight: 600;
-      font-size: 16px;
-    }
-
-    .edit-btn, .logout-btn {
-      margin-top: 25px;
-      background: white;
-      color: #222;
-      padding: 14px 32px;
-      border-radius: 50px;
-      font-size: 20px;
-      border: none;
-      cursor: pointer;
       font-weight: 700;
-      transition: 0.25s;
-    }
-    button:hover {
-      transform: scale(1.07);
     }
 
-    #editPopup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
-      color: black;
-      padding: 30px;
-      border-radius: 25px;
-      width: 380px;
-      display: none;
-      text-align: center;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    }
-
-    .avatar-select img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      margin: 8px;
-      cursor: pointer;
-      border: 3px solid transparent;
+    .sidebar a {
+      display: block;
+      text-decoration: none;
+      color: white;
+      opacity: 0.85;
+      font-size: 17px;
+      margin: 10px 0;
       transition: 0.2s;
     }
-    .avatar-select img:hover {
-      transform: scale(1.1);
+
+    .sidebar a:hover {
+      opacity: 1;
+      transform: translateX(6px);
     }
+
+    /* MAIN STATS AREA */
+    .main {
+      flex: 1;
+      padding: 50px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(8px);
+      padding: 22px;
+      border-radius: 18px;
+      margin-bottom: 20px;
+      max-width: 500px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .card h3 {
+      font-size: 26px;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .stat {
+      font-size: 40px;
+      font-weight: 700;
+    }
+
   </style>
 </head>
 <body>
 
-<h1>Your Quizterra Stats</h1>
-<p>Welcome back, adventurer!</p>
-
-<div class="stats-card">
-
-  <img id="userPic" class="profile-img" src="" alt="Profile">
-
-  <h2 id="userName"></h2>
-  <h3 id="usernameDisplay" style="opacity:0.9; font-weight:600; margin-top:-10px;"></h3>
-
-  <p id="userEmail"></p>
-
-  <!-- XP / LEVEL -->
-  <h2>Level <span id="levelNum">1</span></h2>
-  <div class="xp-container">
-    <div class="xp-fill" id="xpFill"></div>
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>Quizterra</h2>
+    <a href="index.html">🏠 Home</a>
+    <a href="stats.html">📊 Stats</a>
+    <a href="packs.html">🎒 Packs</a>
+    <a href="profile.html">👤 Profile</a>
   </div>
-  <p><span id="xpNow">0</span> / <span id="xpReq">100</span> XP</p>
 
-  <!-- Daily STREAK -->
-  <h2>🔥 Daily Streak: <span id="streakNum">1</span> days</h2>
+  <!-- MAIN -->
+  <div class="main">
+    <h1>Your Stats</h1>
 
-  <!-- Stats -->
-  <div class="stat-label">Games Played: <span id="gamesPlayed">0</span></div>
-  <div class="stat-label">Correct Answers: <span id="correctAnswers">0</span></div>
-  <div class="stat-label">Total Points: <span id="totalPoints">0</span></div>
+    <div class="card">
+      <h3>Level</h3>
+      <div class="stat" id="level">0</div>
+    </div>
 
-  <!-- Badges -->
-  <h2>Badges</h2>
-  <div class="badge-list" id="badgeList"></div>
+    <div class="card">
+      <h3>XP</h3>
+      <div class="stat" id="xp">0</div>
+    </div>
 
-  <button class="edit-btn" onclick="openEdit()">Edit Profile</button>
-  <button class="logout-btn" onclick="logout()">Log Out</button>
-</div>
+    <div class="card">
+      <h3>Coins</h3>
+      <div class="stat" id="coins">0</div>
+    </div>
 
-<!-- Popup for Editing Profile -->
-<div id="editPopup">
-  <h2>Edit Profile</h2>
+    <div class="card">
+      <h3>Games Played</h3>
+      <div class="stat" id="gamesPlayed">0</div>
+    </div>
 
-  <p>Change Username (10 letters only)</p>
-  <input id="newUsername" maxlength="10" style="padding:10px; width:80%; font-size:18px;">
+    <div class="card">
+      <h3>Correct Answers</h3>
+      <div class="stat" id="correct">0</div>
+    </div>
 
-  <p style="margin-top:15px;">Choose Avatar</p>
-  <div class="avatar-select" id="avatarSelection"></div>
+    <div class="card">
+      <h3>Wrong Answers</h3>
+      <div class="stat" id="wrong">0</div>
+    </div>
+  </div>
 
-  <button onclick="saveProfile()" style="margin-top:20px;">Save</button>
-  <button onclick="closeEdit()" style="margin-top:10px;">Cancel</button>
-</div>
+  <!-- FIREBASE -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } 
+      from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc }
+      from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-<script>
-  const user = JSON.parse(localStorage.getItem("quizterraUser"));
-  const stats = JSON.parse(localStorage.getItem("quizterraStats")) || {
-    gamesPlayed: 24,
-    correctAnswers: 60,
-    totalPoints: 450,
-    xp: 120,
-    level: 2,
-    streak: 1
-  };
-
-  if (!user) window.location.href = "signup.html";
-
-  // Insert user info
-  document.getElementById("userPic").src = user.picture;
-  document.getElementById("userName").textContent = user.name;
-  document.getElementById("usernameDisplay").textContent = "@" + user.username;
-  document.getElementById("userEmail").textContent = user.email;
-
-  // INSERT STATS
-  animateNumber("gamesPlayed", stats.gamesPlayed);
-  animateNumber("correctAnswers", stats.correctAnswers);
-  animateNumber("totalPoints", stats.totalPoints);
-
-  // LEVEL + XP SYSTEM
-  const level = stats.level;
-  const xp = stats.xp;
-  const xpRequired = 100 + (level - 1) * 50;
-
-  document.getElementById("levelNum").textContent = level;
-  document.getElementById("xpNow").textContent = xp;
-  document.getElementById("xpReq").textContent = xpRequired;
-
-  const xpPercent = Math.min((xp / xpRequired) * 100, 100);
-  setTimeout(() => {
-    document.getElementById("xpFill").style.width = xpPercent + "%";
-  }, 300);
-
-  // DAILY STREAK
-  animateNumber("streakNum", stats.streak);
-
-  // BADGES
-  const badgeList = document.getElementById("badgeList");
-  const badgeData = [
-    { name: "🎯 50 Correct Answers", condition: stats.correctAnswers >= 50 },
-    { name: "🏆 Played 20 Games", condition: stats.gamesPlayed >= 20 },
-    { name: "🔥 3 Day Streak", condition: stats.streak >= 3 },
-    { name: "💎 Level 5", condition: stats.level >= 5 },
-  ];
-
-  badgeData.forEach(b => {
-    if (b.condition) {
-      const badge = document.createElement("div");
-      badge.className = "badge";
-      badge.innerText = b.name;
-      badgeList.appendChild(badge);
-    }
-  });
-
-  // Animated number function
-  function animateNumber(id, end) {
-    let start = 0;
-    const duration = 1000;
-    const stepTime = Math.abs(Math.floor(duration / end));
-
-    let obj = document.getElementById(id);
-    let timer = setInterval(() => {
-      start++;
-      obj.textContent = start;
-      if (start >= end) clearInterval(timer);
-    }, stepTime);
-  }
-
-  // PROFILE EDITING
-  function openEdit() { document.getElementById("editPopup").style.display = "block"; }
-  function closeEdit() { document.getElementById("editPopup").style.display = "none"; }
-
-  // AVATAR SELECTION LIST
-  const avatarSelection = document.getElementById("avatarSelection");
-  const avatars = [
-    "https://i.imgur.com/6ZfKieD.png",
-    "https://i.imgur.com/9R9jGud.png",
-    "https://i.imgur.com/ziGZp8Z.png",
-    "https://i.imgur.com/xW8J7cU.png"
-  ];
-
-  avatars.forEach(a => {
-    let img = document.createElement("img");
-    img.src = a;
-    img.onclick = () => {
-      user.picture = a;
-      document.getElementById("userPic").src = a;
+    const firebaseConfig = {
+      apiKey: "YOUR_KEY",
+      authDomain: "YOUR_DOMAIN",
+      projectId: "YOUR_ID",
+      storageBucket: "YOUR_BUCKET",
+      messagingSenderId: "YOUR_SENDER",
+      appId: "YOUR_APPID"
     };
-    avatarSelection.appendChild(img);
-  });
 
-  // SAVE PROFILE CHANGES
-  function saveProfile() {
-    let newUsername = document.getElementById("newUsername").value;
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getFirestore();
 
-    if (!/^[A-Za-z]{10}$/.test(newUsername)) {
-      alert("Username must be EXACTLY 10 letters.");
-      return;
+    const statIDs = ["level", "xp", "coins", "gamesPlayed", "correct", "wrong"];
+
+    function countUp(element, end) {
+      let start = 0;
+      let step = Math.ceil(end / 30);
+
+      let interval = setInterval(() => {
+        start += step;
+        if (start >= end) {
+          element.innerText = end;
+          clearInterval(interval);
+        } else {
+          element.innerText = start;
+        }
+      }, 20);
     }
 
-    user.username = newUsername;
-    localStorage.setItem("quizterraUser", JSON.stringify(user));
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
 
-    document.getElementById("usernameDisplay").textContent = "@" + newUsername;
-    closeEdit();
-  }
+      const ref = doc(db, "users", user.uid);
+      let snap = await getDoc(ref);
 
-  function logout() {
-    localStorage.removeItem("quizterraUser");
-    window.location.href = "signup.html";
-  }
-</script>
+      if (!snap.exists()) {
+        await setDoc(ref, {
+          username: "UNKNOWNUSER",
+          level: 0,
+          xp: 0,
+          coins: 0,
+          gamesPlayed: 0,
+          correctAnswers: 0,
+          wrongAnswers: 0
+        });
+
+        snap = await getDoc(ref);
+      }
+
+      const data = snap.data();
+
+      countUp(document.getElementById("level"), data.level);
+      countUp(document.getElementById("xp"), data.xp);
+      countUp(document.getElementById("coins"), data.coins);
+      countUp(document.getElementById("gamesPlayed"), data.gamesPlayed);
+      countUp(document.getElementById("correct"), data.correctAnswers);
+      countUp(document.getElementById("wrong"), data.wrongAnswers);
+    });
+  </script>
 
 </body>
 </html>
