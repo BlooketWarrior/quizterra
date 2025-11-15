@@ -5,6 +5,7 @@
   <title>Quizterra | Sign Up</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
+
   <style>
     body {
       font-family: "Poppins", sans-serif;
@@ -29,24 +30,44 @@
 <body>
 
 <h1>Welcome to Quizterra</h1>
-<p>Sign in with Google to start your adventure!</p>
+<p>Sign in with Google to begin!</p>
 
 <div id="g_id_signin"></div>
 
 <script>
   function handleCredentialResponse(response) {
-    // Decode JWT to get user info
     const user = JSON.parse(atob(response.credential.split(".")[1]));
-    console.log("Google User:", user);
 
-    // Store user info in localStorage
-    localStorage.setItem("quizterraUser", JSON.stringify({
-      name: user.name,
-      email: user.email,
-      picture: user.picture
-    }));
+    // Check if username already exists
+    let existingData = JSON.parse(localStorage.getItem("quizterraUser"));
 
-    // Redirect to stats.html
+    if (!existingData || !existingData.username) {
+      let username = "";
+
+      // Ask until valid
+      while (true) {
+        username = prompt("Please put in your username (must be exactly 10 letters):");
+
+        if (username === null) {
+          alert("You must enter a username to continue.");
+          continue;
+        }
+
+        // Validate: must be 10 letters only
+        if (/^[A-Za-z]{10}$/.test(username)) break;
+        else alert("Username must be exactly 10 LETTERS — no numbers, no symbols.");
+      }
+
+      // Save user data + username
+      localStorage.setItem("quizterraUser", JSON.stringify({
+        name: user.name,
+        email: user.email,
+        picture: user.picture,
+        username: username
+      }));
+    }
+
+    // Redirect to stats
     window.location.href = "stats.html";
   }
 
@@ -58,12 +79,13 @@
 
     google.accounts.id.renderButton(
       document.getElementById("g_id_signin"),
-      { theme: "outline", size: "large", type: "standard" }  // customization
+      { theme: "outline", size: "large" }
     );
 
-    google.accounts.id.prompt(); // Show prompt automatically
+    google.accounts.id.prompt();
   }
 </script>
 
 </body>
 </html>
+
