@@ -22,7 +22,6 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-
     .google-btn { 
       margin-top: 30px; 
       display:inline-flex; 
@@ -38,7 +37,6 @@
       border:none; 
       transition:0.25s; 
     }
-
     .google-btn img { width:28px; }
     .google-btn:hover { transform: scale(1.07); }
   </style>
@@ -54,44 +52,23 @@
   function handleCredentialResponse(response) {
     const user = JSON.parse(atob(response.credential.split(".")[1]));
 
-    // Check if stored user data exists
+    // Load existing user data
     let saved = JSON.parse(localStorage.getItem("quizterraUser"));
 
-    // If first time logging in → force username creation
     if (!saved || !saved.username) {
-      let username = "";
-
-      while (true) {
-        username = prompt("Please put in your username (must be exactly 10 letters):");
-
-        if (username === null) {
-          alert("A username is required.");
-          continue;
-        }
-
-        if (/^[A-Za-z]{10}$/.test(username)) break;
-        else alert("Username must be 10 LETTERS only.");
-      }
-
-      // First-time save
-      saved = {
-        name: user.name,
-        email: user.email,
-        picture: user.picture,
-        username: username
-      };
-
-      localStorage.setItem("quizterraUser", JSON.stringify(saved));
+      // User has never signed up → redirect to signup page
+      window.location.href = "signup.html";
+      return;
     }
 
-    // Just update Google info (in case email or image changes)
+    // Returning user → update Google info
     saved.name = user.name;
     saved.email = user.email;
     saved.picture = user.picture;
 
     localStorage.setItem("quizterraUser", JSON.stringify(saved));
 
-    // Done → Go to stats
+    // Redirect to stats page
     window.location.href = "stats.html";
   }
 
