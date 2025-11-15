@@ -79,7 +79,6 @@
       font-size: 40px;
       font-weight: 700;
     }
-
   </style>
 </head>
 <body>
@@ -128,76 +127,53 @@
     </div>
   </div>
 
-  <!-- FIREBASE -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged } 
-      from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc }
-      from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+  <script>
+    // Load stats from localStorage
+    window.onload = () => {
+      const user = JSON.parse(localStorage.getItem("quizterraUser"));
 
-    const firebaseConfig = {
-      apiKey: "YOUR_KEY",
-      authDomain: "YOUR_DOMAIN",
-      projectId: "YOUR_ID",
-      storageBucket: "YOUR_BUCKET",
-      messagingSenderId: "YOUR_SENDER",
-      appId: "YOUR_APPID"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
-    const db = getFirestore();
-
-    const statIDs = ["level", "xp", "coins", "gamesPlayed", "correct", "wrong"];
-
-    function countUp(element, end) {
-      let start = 0;
-      let step = Math.ceil(end / 30);
-
-      let interval = setInterval(() => {
-        start += step;
-        if (start >= end) {
-          element.innerText = end;
-          clearInterval(interval);
-        } else {
-          element.innerText = start;
-        }
-      }, 20);
-    }
-
-    onAuthStateChanged(auth, async (user) => {
       if (!user) {
+        // If no user found → redirect to login
         window.location.href = "login.html";
         return;
       }
 
-      const ref = doc(db, "users", user.uid);
-      let snap = await getDoc(ref);
-
-      if (!snap.exists()) {
-        await setDoc(ref, {
-          username: "UNKNOWNUSER",
+      // If user.stats doesn't exist → create all 0
+      if (!user.stats) {
+        user.stats = {
           level: 0,
           xp: 0,
           coins: 0,
           gamesPlayed: 0,
-          correctAnswers: 0,
-          wrongAnswers: 0
-        });
-
-        snap = await getDoc(ref);
+          correct: 0,
+          wrong: 0
+        };
+        localStorage.setItem("quizterraUser", JSON.stringify(user));
       }
 
-      const data = snap.data();
+      // Helper: animate counter
+      function countUp(element, end) {
+        let start = 0;
+        let step = Math.ceil(end / 30);
+        const interval = setInterval(() => {
+          start += step;
+          if (start >= end) {
+            element.innerText = end;
+            clearInterval(interval);
+          } else {
+            element.innerText = start;
+          }
+        }, 20);
+      }
 
-      countUp(document.getElementById("level"), data.level);
-      countUp(document.getElementById("xp"), data.xp);
-      countUp(document.getElementById("coins"), data.coins);
-      countUp(document.getElementById("gamesPlayed"), data.gamesPlayed);
-      countUp(document.getElementById("correct"), data.correctAnswers);
-      countUp(document.getElementById("wrong"), data.wrongAnswers);
-    });
+      const stats = user.stats;
+      countUp(document.getElementById("level"), stats.level);
+      countUp(document.getElementById("xp"), stats.xp);
+      countUp(document.getElementById("coins"), stats.coins);
+      countUp(document.getElementById("gamesPlayed"), stats.gamesPlayed);
+      countUp(document.getElementById("correct"), stats.correct);
+      countUp(document.getElementById("wrong"), stats.wrong);
+    };
   </script>
 
 </body>
