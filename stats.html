@@ -20,6 +20,7 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
+
     .sidebar {
       width: 260px;
       background: rgba(0,0,0,0.25);
@@ -63,6 +64,7 @@
 </head>
 <body>
 
+  <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>Quizterra</h2>
     <a href="index.html">🏠 Home</a>
@@ -71,6 +73,7 @@
     <a href="profile.html">👤 Profile</a>
   </div>
 
+  <!-- MAIN -->
   <div class="main">
     <div class="user-info">
       <img id="profilePic" src="" alt="Profile Picture">
@@ -88,7 +91,9 @@
   <script>
     window.onload = () => {
       const user = JSON.parse(localStorage.getItem("quizterraUser"));
+
       if (!user) {
+        // User hasn't logged in → redirect
         window.location.href = "login.html";
         return;
       }
